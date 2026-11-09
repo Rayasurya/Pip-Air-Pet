@@ -1,0 +1,268 @@
+{
+  "label": "SIMULATED",
+  "seeds_scanned": [
+    9001,
+    16000
+  ],
+  "detector_clock": "minutes after the doors close (same clock as evaluate.py)",
+  "min_wait_min": 5.0,
+  "oracles": {
+    "exact": {
+      "knows": [
+        "true air-change rate",
+        "true outdoor CO2",
+        "sensor lag 60 s"
+      ],
+      "does_not_know": [
+        "sensor offset (bounded +-30 ppm)",
+        "CO2 at door close",
+        "noise sd (estimated from fit)"
+      ]
+    },
+    "ranges": {
+      "knows": [
+        "only the assumed ranges: ach 3-6 (cracked) or 0.3-1.5 (closed), outdoor 420-480",
+        "sensor lag 60 s"
+      ],
+      "does_not_know": [
+        "the true ach",
+        "the true outdoor CO2",
+        "sensor offset",
+        "CO2 at door close"
+      ]
+    }
+  },
+  "results": {
+    "exact": {
+      "cracked": {
+        "threshold_set_on_calibration_empties": 12.45,
+        "calibration_empty_cars": 450,
+        "calibration_hard_empty": 232,
+        "calibration_false_alarms": 0,
+        "heldout_empty_cars": 150,
+        "heldout_false_alarms_at_calibration_threshold": 0,
+        "threshold_covering_all_empties": 12.45,
+        "empty_cars_total_zero_false_alarms": 600,
+        "infant_detection": {
+          "n": 300,
+          "found_at_all_pct": 99.7,
+          "median_min": 5.0,
+          "p90_min": 5.0,
+          "within_10_min_pct": 99.3,
+          "within_20_min_pct": 99.7,
+          "within_30_min_pct": 99.7
+        },
+        "infant_car_detection": {
+          "n": 225,
+          "found_at_all_pct": 100.0,
+          "median_min": 5.0,
+          "p90_min": 5.0,
+          "within_10_min_pct": 100.0,
+          "within_20_min_pct": 100.0,
+          "within_30_min_pct": 100.0
+        },
+        "infant_van_detection": {
+          "n": 75,
+          "found_at_all_pct": 98.7,
+          "median_min": 5.0,
+          "p90_min": 7.5,
+          "within_10_min_pct": 97.3,
+          "within_20_min_pct": 98.7,
+          "within_30_min_pct": 98.7
+        }
+      },
+      "closed": {
+        "threshold_set_on_calibration_empties": 229.7,
+        "calibration_empty_cars": 450,
+        "calibration_hard_empty": 221,
+        "calibration_false_alarms": 0,
+        "heldout_empty_cars": 150,
+        "heldout_false_alarms_at_calibration_threshold": 0,
+        "threshold_covering_all_empties": 229.7,
+        "empty_cars_total_zero_false_alarms": 600,
+        "infant_detection": {
+          "n": 300,
+          "found_at_all_pct": 100.0,
+          "median_min": 5.4,
+          "p90_min": 9.2,
+          "within_10_min_pct": 95.3,
+          "within_20_min_pct": 100.0,
+          "within_30_min_pct": 100.0
+        },
+        "infant_car_detection": {
+          "n": 225,
+          "found_at_all_pct": 100.0,
+          "median_min": 5.0,
+          "p90_min": 6.2,
+          "within_10_min_pct": 100.0,
+          "within_20_min_pct": 100.0,
+          "within_30_min_pct": 100.0
+        },
+        "infant_van_detection": {
+          "n": 75,
+          "found_at_all_pct": 100.0,
+          "median_min": 8.6,
+          "p90_min": 10.7,
+          "within_10_min_pct": 81.3,
+          "within_20_min_pct": 100.0,
+          "within_30_min_pct": 100.0
+        }
+      }
+    },
+    "ranges": {
+      "cracked": {
+        "threshold_set_on_calibration_empties": 326.51,
+        "calibration_empty_cars": 450,
+        "calibration_hard_empty": 232,
+        "calibration_false_alarms": 0,
+        "heldout_empty_cars": 150,
+        "heldout_false_alarms_at_calibration_threshold": 0,
+        "threshold_covering_all_empties": 326.51,
+        "empty_cars_total_zero_false_alarms": 600,
+        "infant_detection": {
+          "n": 300,
+          "found_at_all_pct": 95.7,
+          "median_min": 11.0,
+          "p90_min": 30.8,
+          "within_10_min_pct": 47.3,
+          "within_20_min_pct": 78.0,
+          "within_30_min_pct": 88.0
+        },
+        "infant_car_detection": {
+          "n": 225,
+          "found_at_all_pct": 100.0,
+          "median_min": 8.5,
+          "p90_min": 20.1,
+          "within_10_min_pct": 61.8,
+          "within_20_min_pct": 88.9,
+          "within_30_min_pct": 98.7
+        },
+        "infant_van_detection": {
+          "n": 75,
+          "found_at_all_pct": 82.7,
+          "median_min": 23.6,
+          "p90_min": null,
+          "within_10_min_pct": 4.0,
+          "within_20_min_pct": 45.3,
+          "within_30_min_pct": 56.0
+        }
+      },
+      "closed": {
+        "threshold_set_on_calibration_empties": 2540.95,
+        "calibration_empty_cars": 450,
+        "calibration_hard_empty": 221,
+        "calibration_false_alarms": 0,
+        "heldout_empty_cars": 150,
+        "heldout_false_alarms_at_calibration_threshold": 0,
+        "threshold_covering_all_empties": 2540.95,
+        "empty_cars_total_zero_false_alarms": 600,
+        "infant_detection": {
+          "n": 300,
+          "found_at_all_pct": 99.7,
+          "median_min": 11.8,
+          "p90_min": 22.3,
+          "within_10_min_pct": 31.7,
+          "within_20_min_pct": 84.3,
+          "within_30_min_pct": 94.0
+        },
+        "infant_car_detection": {
+          "n": 225,
+          "found_at_all_pct": 100.0,
+          "median_min": 10.6,
+          "p90_min": 15.3,
+          "within_10_min_pct": 42.2,
+          "within_20_min_pct": 95.6,
+          "within_30_min_pct": 98.2
+        },
+        "infant_van_detection": {
+          "n": 75,
+          "found_at_all_pct": 98.7,
+          "median_min": 19.8,
+          "p90_min": 41.8,
+          "within_10_min_pct": 0.0,
+          "within_20_min_pct": 50.7,
+          "within_30_min_pct": 81.3
+        }
+      }
+    }
+  },
+  "real_detector_same_seeds": {
+    "cracked": {
+      "infant_detection": {
+        "n": 300,
+        "found_at_all_pct": 83.0,
+        "median_min": 44.3,
+        "p90_min": null,
+        "within_10_min_pct": 20.3,
+        "within_20_min_pct": 34.7,
+        "within_30_min_pct": 36.3
+      },
+      "empty_cars": 600,
+      "empty_false_alarms": 0
+    },
+    "closed": {
+      "infant_detection": {
+        "n": 300,
+        "found_at_all_pct": 100.0,
+        "median_min": 6.6,
+        "p90_min": 8.6,
+        "within_10_min_pct": 93.3,
+        "within_20_min_pct": 98.0,
+        "within_30_min_pct": 98.0
+      },
+      "empty_cars": 600,
+      "empty_false_alarms": 0
+    }
+  },
+  "real_detector_for_comparison": {
+    "source": "ai/vehicle/results_final_v2.json and LEFT_BEHIND.md, final_v2 seeds 2001-2600 (different seeds, compare the pattern)",
+    "cracked_infant_median_min": 45.9,
+    "cracked_infant_found_pct": 77,
+    "cracked_infant_within_10_min_pct": 10,
+    "cracked_infant_within_20_min_pct": 30,
+    "closed_car_infant_median_min": 6.4,
+    "closed_car_infant_within_10_min_pct": 93.9
+  },
+  "analytic": {
+    "steady_excess_formula": "G / (ach * V), G in L/h, V in L, result as ppm after x1e6",
+    "time_constant_formula": "1 / ach",
+    "examples": [
+      {
+        "case": "infant, small car, window cracked (typical)",
+        "G_L_per_h": 3.5,
+        "V_m3": 3.0,
+        "ach_per_h": 4.5,
+        "steady_excess_ppm": 259.0,
+        "time_constant_min": 13.3,
+        "initial_rise_ppm_per_min": 19.4
+      },
+      {
+        "case": "infant, small car, wide crack",
+        "G_L_per_h": 3.5,
+        "V_m3": 3.0,
+        "ach_per_h": 6.0,
+        "steady_excess_ppm": 194.0,
+        "time_constant_min": 10.0,
+        "initial_rise_ppm_per_min": 19.4
+      },
+      {
+        "case": "infant, small car, narrow crack",
+        "G_L_per_h": 2.5,
+        "V_m3": 3.5,
+        "ach_per_h": 3.0,
+        "steady_excess_ppm": 238.0,
+        "time_constant_min": 20.0,
+        "initial_rise_ppm_per_min": 11.9
+      },
+      {
+        "case": "infant, closed car",
+        "G_L_per_h": 3.5,
+        "V_m3": 3.0,
+        "ach_per_h": 0.9,
+        "steady_excess_ppm": 1296.0,
+        "time_constant_min": 66.7,
+        "initial_rise_ppm_per_min": 19.4
+      }
+    ]
+  }
+}

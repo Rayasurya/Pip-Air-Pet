@@ -1,0 +1,399 @@
+{
+ "label": "SIMULATED",
+ "set": "final",
+ "seeds": [
+  1001,
+  1600
+ ],
+ "scenarios": 600,
+ "by_occupant": {
+  "infant": {
+   "n": 120,
+   "detected": 90,
+   "rate_within_5min": 0.008,
+   "rate_within_10min": 0.742,
+   "rate_within_20min": 0.742,
+   "median_min": 6.3,
+   "p95_min": 8.2,
+   "urgent_count": 67,
+   "after_cabin_60c": 0
+  },
+  "toddler": {
+   "n": 120,
+   "detected": 111,
+   "rate_within_5min": 0.275,
+   "rate_within_10min": 0.892,
+   "rate_within_20min": 0.9,
+   "median_min": 5.6,
+   "p95_min": 8.6,
+   "urgent_count": 84,
+   "after_cabin_60c": 1
+  },
+  "dog": {
+   "n": 120,
+   "detected": 114,
+   "rate_within_5min": 0.433,
+   "rate_within_10min": 0.917,
+   "rate_within_20min": 0.925,
+   "median_min": 5.1,
+   "p95_min": 7.6,
+   "urgent_count": 81,
+   "after_cabin_60c": 2
+  }
+ },
+ "by_occupant_variant_vehicle": {
+  "infant/closed/car": {
+   "n": 69,
+   "detected": 69,
+   "rate_within_5min": 0.014,
+   "rate_within_10min": 1.0,
+   "rate_within_20min": 1.0,
+   "median_min": 6.1,
+   "p95_min": 7.5,
+   "urgent_count": 50,
+   "after_cabin_60c": 0
+  },
+  "infant/closed/van": {
+   "n": 21,
+   "detected": 17,
+   "rate_within_5min": 0.0,
+   "rate_within_10min": 0.762,
+   "rate_within_20min": 0.762,
+   "median_min": 6.9,
+   "p95_min": 16.9,
+   "urgent_count": 13,
+   "after_cabin_60c": 0
+  },
+  "infant/cracked/car": {
+   "n": 23,
+   "detected": 4,
+   "rate_within_5min": 0.0,
+   "rate_within_10min": 0.174,
+   "rate_within_20min": 0.174,
+   "median_min": 7.4,
+   "p95_min": 8.4,
+   "urgent_count": 4,
+   "after_cabin_60c": 0
+  },
+  "infant/cracked/van": {
+   "n": 7,
+   "detected": 0,
+   "rate_within_5min": 0.0,
+   "rate_within_10min": 0.0,
+   "rate_within_20min": 0.0,
+   "median_min": null,
+   "p95_min": null,
+   "urgent_count": 0,
+   "after_cabin_60c": 0
+  },
+  "toddler/closed/car": {
+   "n": 69,
+   "detected": 69,
+   "rate_within_5min": 0.435,
+   "rate_within_10min": 1.0,
+   "rate_within_20min": 1.0,
+   "median_min": 5.1,
+   "p95_min": 6.6,
+   "urgent_count": 54,
+   "after_cabin_60c": 0
+  },
+  "toddler/closed/van": {
+   "n": 21,
+   "detected": 21,
+   "rate_within_5min": 0.048,
+   "rate_within_10min": 1.0,
+   "rate_within_20min": 1.0,
+   "median_min": 6.0,
+   "p95_min": 7.3,
+   "urgent_count": 17,
+   "after_cabin_60c": 0
+  },
+  "toddler/cracked/car": {
+   "n": 23,
+   "detected": 16,
+   "rate_within_5min": 0.087,
+   "rate_within_10min": 0.565,
+   "rate_within_20min": 0.565,
+   "median_min": 7.3,
+   "p95_min": 72.0,
+   "urgent_count": 10,
+   "after_cabin_60c": 1
+  },
+  "toddler/cracked/van": {
+   "n": 7,
+   "detected": 5,
+   "rate_within_5min": 0.0,
+   "rate_within_10min": 0.571,
+   "rate_within_20min": 0.714,
+   "median_min": 8.0,
+   "p95_min": 10.9,
+   "urgent_count": 3,
+   "after_cabin_60c": 0
+  },
+  "dog/closed/car": {
+   "n": 69,
+   "detected": 69,
+   "rate_within_5min": 0.594,
+   "rate_within_10min": 1.0,
+   "rate_within_20min": 1.0,
+   "median_min": 4.9,
+   "p95_min": 6.2,
+   "urgent_count": 51,
+   "after_cabin_60c": 0
+  },
+  "dog/closed/van": {
+   "n": 21,
+   "detected": 21,
+   "rate_within_5min": 0.238,
+   "rate_within_10min": 1.0,
+   "rate_within_20min": 1.0,
+   "median_min": 5.3,
+   "p95_min": 6.8,
+   "urgent_count": 13,
+   "after_cabin_60c": 0
+  },
+  "dog/cracked/car": {
+   "n": 23,
+   "detected": 19,
+   "rate_within_5min": 0.174,
+   "rate_within_10min": 0.696,
+   "rate_within_20min": 0.696,
+   "median_min": 5.6,
+   "p95_min": 56.9,
+   "urgent_count": 13,
+   "after_cabin_60c": 2
+  },
+  "dog/cracked/van": {
+   "n": 7,
+   "detected": 5,
+   "rate_within_5min": 0.286,
+   "rate_within_10min": 0.571,
+   "rate_within_20min": 0.714,
+   "median_min": 5.2,
+   "p95_min": 12.7,
+   "urgent_count": 4,
+   "after_cabin_60c": 0
+  }
+ },
+ "by_variant": {
+  "infant/closed": {
+   "n": 90,
+   "detected": 86,
+   "rate_within_5min": 0.011,
+   "rate_within_10min": 0.944,
+   "rate_within_20min": 0.944,
+   "median_min": 6.3,
+   "p95_min": 8.1,
+   "urgent_count": 63,
+   "after_cabin_60c": 0
+  },
+  "infant/cracked": {
+   "n": 30,
+   "detected": 4,
+   "rate_within_5min": 0.0,
+   "rate_within_10min": 0.133,
+   "rate_within_20min": 0.133,
+   "median_min": 7.4,
+   "p95_min": 8.4,
+   "urgent_count": 4,
+   "after_cabin_60c": 0
+  },
+  "toddler/closed": {
+   "n": 90,
+   "detected": 90,
+   "rate_within_5min": 0.344,
+   "rate_within_10min": 1.0,
+   "rate_within_20min": 1.0,
+   "median_min": 5.4,
+   "p95_min": 7.0,
+   "urgent_count": 71,
+   "after_cabin_60c": 0
+  },
+  "toddler/cracked": {
+   "n": 30,
+   "detected": 21,
+   "rate_within_5min": 0.067,
+   "rate_within_10min": 0.567,
+   "rate_within_20min": 0.6,
+   "median_min": 7.5,
+   "p95_min": 67.6,
+   "urgent_count": 13,
+   "after_cabin_60c": 1
+  },
+  "dog/closed": {
+   "n": 90,
+   "detected": 90,
+   "rate_within_5min": 0.511,
+   "rate_within_10min": 1.0,
+   "rate_within_20min": 1.0,
+   "median_min": 5.0,
+   "p95_min": 6.4,
+   "urgent_count": 64,
+   "after_cabin_60c": 0
+  },
+  "dog/cracked": {
+   "n": 30,
+   "detected": 24,
+   "rate_within_5min": 0.2,
+   "rate_within_10min": 0.667,
+   "rate_within_20min": 0.7,
+   "median_min": 5.6,
+   "p95_min": 56.3,
+   "urgent_count": 17,
+   "after_cabin_60c": 2
+  }
+ },
+ "by_vehicle": {
+  "infant/car": {
+   "n": 92,
+   "detected": 73,
+   "rate_within_5min": 0.011,
+   "rate_within_10min": 0.793,
+   "rate_within_20min": 0.793,
+   "median_min": 6.1,
+   "p95_min": 7.9,
+   "urgent_count": 54,
+   "after_cabin_60c": 0
+  },
+  "infant/van": {
+   "n": 28,
+   "detected": 17,
+   "rate_within_5min": 0.0,
+   "rate_within_10min": 0.571,
+   "rate_within_20min": 0.571,
+   "median_min": 6.9,
+   "p95_min": 16.9,
+   "urgent_count": 13,
+   "after_cabin_60c": 0
+  },
+  "toddler/car": {
+   "n": 92,
+   "detected": 85,
+   "rate_within_5min": 0.348,
+   "rate_within_10min": 0.891,
+   "rate_within_20min": 0.891,
+   "median_min": 5.3,
+   "p95_min": 8.5,
+   "urgent_count": 64,
+   "after_cabin_60c": 1
+  },
+  "toddler/van": {
+   "n": 28,
+   "detected": 26,
+   "rate_within_5min": 0.036,
+   "rate_within_10min": 0.893,
+   "rate_within_20min": 0.929,
+   "median_min": 6.1,
+   "p95_min": 8.7,
+   "urgent_count": 20,
+   "after_cabin_60c": 0
+  },
+  "dog/car": {
+   "n": 92,
+   "detected": 88,
+   "rate_within_5min": 0.489,
+   "rate_within_10min": 0.924,
+   "rate_within_20min": 0.924,
+   "median_min": 5.0,
+   "p95_min": 7.6,
+   "urgent_count": 64,
+   "after_cabin_60c": 2
+  },
+  "dog/van": {
+   "n": 28,
+   "detected": 26,
+   "rate_within_5min": 0.25,
+   "rate_within_10min": 0.893,
+   "rate_within_20min": 0.929,
+   "median_min": 5.3,
+   "p95_min": 7.4,
+   "urgent_count": 17,
+   "after_cabin_60c": 0
+  }
+ },
+ "all_occupied_closed": {
+  "n": 270,
+  "detected": 266,
+  "rate_within_5min": 0.289,
+  "rate_within_10min": 0.981,
+  "rate_within_20min": 0.981,
+  "median_min": 5.5,
+  "p95_min": 7.5,
+  "urgent_count": 198,
+  "after_cabin_60c": 0
+ },
+ "all_occupied_cracked": {
+  "n": 90,
+  "detected": 49,
+  "rate_within_5min": 0.089,
+  "rate_within_10min": 0.456,
+  "rate_within_20min": 0.478,
+  "median_min": 7.3,
+  "p95_min": 58.5,
+  "urgent_count": 34,
+  "after_cabin_60c": 3
+ },
+ "all_occupied_car": {
+  "n": 276,
+  "detected": 246,
+  "rate_within_5min": 0.283,
+  "rate_within_10min": 0.87,
+  "rate_within_20min": 0.87,
+  "median_min": 5.5,
+  "p95_min": 8.3,
+  "urgent_count": 182,
+  "after_cabin_60c": 3
+ },
+ "all_occupied_van": {
+  "n": 84,
+  "detected": 69,
+  "rate_within_5min": 0.095,
+  "rate_within_10min": 0.786,
+  "rate_within_20min": 0.81,
+  "median_min": 6.0,
+  "p95_min": 8.6,
+  "urgent_count": 50,
+  "after_cabin_60c": 0
+ },
+ "empty_all": {
+  "n": 240,
+  "false_alarms_within_60min": 0,
+  "rate": 0.0,
+  "any_alarm_in_90min_run": 0
+ },
+ "empty_hard": {
+  "n": 115,
+  "false_alarms_within_60min": 0,
+  "rate": 0.0,
+  "any_alarm_in_90min_run": 0
+ },
+ "empty_easy": {
+  "n": 125,
+  "false_alarms_within_60min": 0,
+  "rate": 0.0,
+  "any_alarm_in_90min_run": 0
+ },
+ "empty_false_alarm_seeds": [],
+ "targets": {
+  "empty_false_alarm_under_1pct": true,
+  "infant_closed_car_10min_at_least_95pct": true,
+  "infant_closed_car_10min_rate": 1.0,
+  "infant_closed_car_n": 69
+ },
+ "misses_by_cell": {
+  "infant/closed/car": 0,
+  "infant/closed/van": 4,
+  "infant/cracked/car": 19,
+  "infant/cracked/van": 7,
+  "toddler/closed/car": 0,
+  "toddler/closed/van": 0,
+  "toddler/cracked/car": 7,
+  "toddler/cracked/van": 2,
+  "dog/closed/car": 0,
+  "dog/closed/van": 0,
+  "dog/cracked/car": 4,
+  "dog/cracked/van": 2
+ },
+ "alerts_after_cabin_passed_60c": 3,
+ "occupied_alerts_total": 315
+}

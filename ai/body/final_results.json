@@ -1,0 +1,210 @@
+{
+ "note": "SIMULATED people",
+ "seeds": [
+  101,
+  130
+ ],
+ "3 months": {
+  "pressure": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 21,
+   "true_factor_pattern": 0,
+   "true_factor_pattern_or_hint": 4,
+   "any_false_hint": 4,
+   "any_false_pattern": 1,
+   "false_patterns_by_factor": {
+    "temp_mean": 1,
+    "hum_mean": 1
+   }
+  },
+  "stale": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 16,
+   "true_factor_pattern": 3,
+   "true_factor_pattern_or_hint": 10,
+   "any_false_hint": 5,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "pressure_rare": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 15,
+   "true_factor_pattern": 0,
+   "true_factor_pattern_or_hint": 1,
+   "any_false_hint": 4,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "stale_rare": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 15,
+   "true_factor_pattern": 0,
+   "true_factor_pattern_or_hint": 0,
+   "any_false_hint": 5,
+   "any_false_pattern": 1,
+   "false_patterns_by_factor": {
+    "dark_minutes": 1
+   }
+  },
+  "none": {
+   "runs": 30,
+   "runs_with_enough_marks": 29,
+   "median_marks": 15,
+   "any_false_hint": 5,
+   "any_false_pattern": 1,
+   "false_patterns_by_factor": {
+    "dark_minutes": 1
+   }
+  },
+  "early_sign": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 14,
+   "any_false_hint": 5,
+   "any_false_pattern": 0,
+   "dark_last2h_early_sign": 30,
+   "called_light_a_cause": 0,
+   "false_patterns_by_factor": {}
+  }
+ },
+ "6 months": {
+  "pressure": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 41,
+   "true_factor_pattern": 3,
+   "true_factor_pattern_or_hint": 9,
+   "any_false_hint": 2,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "stale": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 34,
+   "true_factor_pattern": 5,
+   "true_factor_pattern_or_hint": 17,
+   "any_false_hint": 3,
+   "any_false_pattern": 1,
+   "false_patterns_by_factor": {
+    "dark_minutes": 1
+   }
+  },
+  "pressure_rare": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 32,
+   "true_factor_pattern": 1,
+   "true_factor_pattern_or_hint": 2,
+   "any_false_hint": 2,
+   "any_false_pattern": 1,
+   "false_patterns_by_factor": {
+    "dark_minutes": 1
+   }
+  },
+  "stale_rare": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 30,
+   "true_factor_pattern": 0,
+   "true_factor_pattern_or_hint": 1,
+   "any_false_hint": 6,
+   "any_false_pattern": 1,
+   "false_patterns_by_factor": {
+    "hum_mean": 1
+   }
+  },
+  "none": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 30,
+   "any_false_hint": 1,
+   "any_false_pattern": 1,
+   "false_patterns_by_factor": {
+    "dark_minutes": 1
+   }
+  },
+  "early_sign": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 29,
+   "any_false_hint": 5,
+   "any_false_pattern": 0,
+   "dark_last2h_early_sign": 30,
+   "called_light_a_cause": 0,
+   "false_patterns_by_factor": {}
+  }
+ },
+ "12 months": {
+  "pressure": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 81,
+   "true_factor_pattern": 6,
+   "true_factor_pattern_or_hint": 16,
+   "any_false_hint": 6,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "stale": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 71,
+   "true_factor_pattern": 15,
+   "true_factor_pattern_or_hint": 23,
+   "any_false_hint": 6,
+   "any_false_pattern": 1,
+   "false_patterns_by_factor": {
+    "co2_mean": 1,
+    "dark_minutes": 1
+   }
+  },
+  "pressure_rare": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 63,
+   "true_factor_pattern": 1,
+   "true_factor_pattern_or_hint": 4,
+   "any_false_hint": 4,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "stale_rare": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 59,
+   "true_factor_pattern": 1,
+   "true_factor_pattern_or_hint": 2,
+   "any_false_hint": 6,
+   "any_false_pattern": 1,
+   "false_patterns_by_factor": {
+    "press_change": 1
+   }
+  },
+  "none": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 60,
+   "any_false_hint": 2,
+   "any_false_pattern": 2,
+   "false_patterns_by_factor": {
+    "dark_minutes": 1,
+    "co2_mean": 1
+   }
+  },
+  "early_sign": {
+   "runs": 30,
+   "runs_with_enough_marks": 30,
+   "median_marks": 58,
+   "any_false_hint": 10,
+   "any_false_pattern": 0,
+   "dark_last2h_early_sign": 30,
+   "called_light_a_cause": 0,
+   "false_patterns_by_factor": {}
+  }
+ }
+}

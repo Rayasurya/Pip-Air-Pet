@@ -1,0 +1,331 @@
+{
+  "label": "ALL NUMBERS SIMULATED",
+  "split": "final_v2",
+  "seeds": [
+    1501,
+    1800
+  ],
+  "rooms_per_type": 300,
+  "days_per_room": 7,
+  "scored_from_day": 2,
+  "by_room_type": {
+    "classroom": {
+      "fresh_air": {
+        "minutes_scored_device_steady": 117401,
+        "median_abs_pct_error_device_steady": 7.55,
+        "p90_abs_pct_error_device_steady": 21.97,
+        "median_abs_pct_error_all_occupied_minutes": 10.85,
+        "minutes_all_occupied_with_an_estimate": 457819,
+        "median_abs_pct_error_device_and_truth_steady": 6.61,
+        "by_true_air_change_rate": {
+          "lam<1.5": {
+            "minutes": 12401,
+            "median_abs_pct_error": 16.63
+          },
+          "lam1.5-4": {
+            "minutes": 56515,
+            "median_abs_pct_error": 6.91
+          },
+          "lam>4": {
+            "minutes": 48485,
+            "median_abs_pct_error": 7.26
+          }
+        }
+      },
+      "steady_flag": {
+        "occupied_minutes": 466560,
+        "pct_of_occupied_minutes_flagged_steady": 25.2,
+        "pct_of_flagged_steady_that_are_truly_near_steady": 87.9,
+        "pct_of_truly_near_steady_minutes_flagged_steady": 58.8
+      },
+      "headcount": {
+        "all_occupied_minutes": {
+          "minutes": 466560,
+          "median_abs_error_people": 7.68,
+          "median_abs_pct_error": 24.58,
+          "pct_truth_inside_range": 64.8,
+          "median_range_width": 18.06,
+          "median_true_people": 33.0
+        },
+        "leak_learned_yet": {
+          "minutes": 466560,
+          "median_abs_error_people": 7.68,
+          "median_abs_pct_error": 24.58,
+          "pct_truth_inside_range": 64.8,
+          "median_range_width": 18.06,
+          "median_true_people": 33.0
+        },
+        "leak_still_default": {
+          "minutes": 0,
+          "median_abs_error_people": null,
+          "median_abs_pct_error": null,
+          "pct_truth_inside_range": null,
+          "median_range_width": null,
+          "median_true_people": null
+        },
+        "by_true_air_change_rate": {
+          "lam<1.5": {
+            "minutes": 132841,
+            "median_abs_error_people": 5.2,
+            "median_abs_pct_error": 16.37,
+            "pct_truth_inside_range": 74.8,
+            "median_range_width": 16.03,
+            "median_true_people": 33.0
+          },
+          "lam1.5-4": {
+            "minutes": 205564,
+            "median_abs_error_people": 8.65,
+            "median_abs_pct_error": 27.08,
+            "pct_truth_inside_range": 63.1,
+            "median_range_width": 18.88,
+            "median_true_people": 33.0
+          },
+          "lam>4": {
+            "minutes": 128155,
+            "median_abs_error_people": 9.78,
+            "median_abs_pct_error": 31.97,
+            "pct_truth_inside_range": 57.2,
+            "median_range_width": 19.24,
+            "median_true_people": 32.0
+          }
+        }
+      },
+      "empty_room": {
+        "minutes_truly_empty_30min": 2047008,
+        "mean_headcount_mid": 0.553,
+        "pct_minutes_mid_at_least_1": 1.45,
+        "pct_minutes_device_says_occupied": 2.98,
+        "mean_headcount_mid_when_device_says_occupied": 1.45
+      },
+      "headcount_before_any_leak_learned": {
+        "minutes": 35882,
+        "median_abs_error_people": 7.03,
+        "pct_truth_inside_range": 66.7,
+        "median_range_width": 18.03
+      },
+      "risk": {
+        "minutes": 466560,
+        "pct_exact_agreement": 96.3,
+        "pct_within_one_level": 100.0,
+        "truth_level_share_pct": {
+          "0": 4.8,
+          "1": 16.4,
+          "2": 35.5,
+          "3": 43.4
+        }
+      }
+    },
+    "clinic": {
+      "fresh_air": {
+        "minutes_scored_device_steady": 170304,
+        "median_abs_pct_error_device_steady": 9.72,
+        "p90_abs_pct_error_device_steady": 39.22,
+        "median_abs_pct_error_all_occupied_minutes": 15.74,
+        "minutes_all_occupied_with_an_estimate": 733471,
+        "median_abs_pct_error_device_and_truth_steady": 5.6,
+        "by_true_air_change_rate": {
+          "lam<1.5": {
+            "minutes": 40772,
+            "median_abs_pct_error": 13.05
+          },
+          "lam1.5-4": {
+            "minutes": 90319,
+            "median_abs_pct_error": 9.01
+          },
+          "lam>4": {
+            "minutes": 39213,
+            "median_abs_pct_error": 8.68
+          }
+        }
+      },
+      "steady_flag": {
+        "occupied_minutes": 744892,
+        "pct_of_occupied_minutes_flagged_steady": 22.9,
+        "pct_of_flagged_steady_that_are_truly_near_steady": 58.4,
+        "pct_of_truly_near_steady_minutes_flagged_steady": 40.1
+      },
+      "headcount": {
+        "all_occupied_minutes": {
+          "minutes": 744892,
+          "median_abs_error_people": 5.95,
+          "median_abs_pct_error": 42.2,
+          "pct_truth_inside_range": 44.6,
+          "median_range_width": 8.48,
+          "median_true_people": 17.0
+        },
+        "leak_learned_yet": {
+          "minutes": 744892,
+          "median_abs_error_people": 5.95,
+          "median_abs_pct_error": 42.2,
+          "pct_truth_inside_range": 44.6,
+          "median_range_width": 8.48,
+          "median_true_people": 17.0
+        },
+        "leak_still_default": {
+          "minutes": 0,
+          "median_abs_error_people": null,
+          "median_abs_pct_error": null,
+          "pct_truth_inside_range": null,
+          "median_range_width": null,
+          "median_true_people": null
+        },
+        "by_true_air_change_rate": {
+          "lam<1.5": {
+            "minutes": 169576,
+            "median_abs_error_people": 4.29,
+            "median_abs_pct_error": 29.3,
+            "pct_truth_inside_range": 52.8,
+            "median_range_width": 7.68,
+            "median_true_people": 16.0
+          },
+          "lam1.5-4": {
+            "minutes": 368299,
+            "median_abs_error_people": 6.28,
+            "median_abs_pct_error": 43.19,
+            "pct_truth_inside_range": 45.1,
+            "median_range_width": 8.86,
+            "median_true_people": 17.0
+          },
+          "lam>4": {
+            "minutes": 207017,
+            "median_abs_error_people": 7.31,
+            "median_abs_pct_error": 51.09,
+            "pct_truth_inside_range": 37.2,
+            "median_range_width": 8.42,
+            "median_true_people": 17.0
+          }
+        }
+      },
+      "empty_room": {
+        "minutes_truly_empty_30min": 1790686,
+        "mean_headcount_mid": 0.417,
+        "pct_minutes_mid_at_least_1": 0.72,
+        "pct_minutes_device_says_occupied": 3.31,
+        "mean_headcount_mid_when_device_says_occupied": 0.98
+      },
+      "headcount_before_any_leak_learned": {
+        "minutes": 37110,
+        "median_abs_error_people": 6.14,
+        "pct_truth_inside_range": 40.1,
+        "median_range_width": 8.3
+      },
+      "risk": {
+        "minutes": 744892,
+        "pct_exact_agreement": 97.7,
+        "pct_within_one_level": 100.0,
+        "truth_level_share_pct": {
+          "0": 5.7,
+          "1": 10.0,
+          "2": 19.6,
+          "3": 64.7
+        }
+      }
+    },
+    "meeting": {
+      "fresh_air": {
+        "minutes_scored_device_steady": 31562,
+        "median_abs_pct_error_device_steady": 6.72,
+        "p90_abs_pct_error_device_steady": 55.0,
+        "median_abs_pct_error_all_occupied_minutes": 12.23,
+        "minutes_all_occupied_with_an_estimate": 283333,
+        "median_abs_pct_error_device_and_truth_steady": 5.22,
+        "by_true_air_change_rate": {
+          "lam<1.5": {
+            "minutes": 5327,
+            "median_abs_pct_error": 11.27
+          },
+          "lam1.5-4": {
+            "minutes": 10038,
+            "median_abs_pct_error": 6.91
+          },
+          "lam>4": {
+            "minutes": 16197,
+            "median_abs_pct_error": 6.03
+          }
+        }
+      },
+      "steady_flag": {
+        "occupied_minutes": 290761,
+        "pct_of_occupied_minutes_flagged_steady": 10.9,
+        "pct_of_flagged_steady_that_are_truly_near_steady": 78.0,
+        "pct_of_truly_near_steady_minutes_flagged_steady": 35.9
+      },
+      "headcount": {
+        "all_occupied_minutes": {
+          "minutes": 290761,
+          "median_abs_error_people": 1.33,
+          "median_abs_pct_error": 21.88,
+          "pct_truth_inside_range": 76.2,
+          "median_range_width": 4.12,
+          "median_true_people": 7.0
+        },
+        "leak_learned_yet": {
+          "minutes": 290761,
+          "median_abs_error_people": 1.33,
+          "median_abs_pct_error": 21.88,
+          "pct_truth_inside_range": 76.2,
+          "median_range_width": 4.12,
+          "median_true_people": 7.0
+        },
+        "leak_still_default": {
+          "minutes": 0,
+          "median_abs_error_people": null,
+          "median_abs_pct_error": null,
+          "pct_truth_inside_range": null,
+          "median_range_width": null,
+          "median_true_people": null
+        },
+        "by_true_air_change_rate": {
+          "lam<1.5": {
+            "minutes": 80923,
+            "median_abs_error_people": 1.03,
+            "median_abs_pct_error": 16.47,
+            "pct_truth_inside_range": 78.9,
+            "median_range_width": 3.52,
+            "median_true_people": 7.0
+          },
+          "lam1.5-4": {
+            "minutes": 133598,
+            "median_abs_error_people": 1.4,
+            "median_abs_pct_error": 23.14,
+            "pct_truth_inside_range": 76.8,
+            "median_range_width": 4.38,
+            "median_true_people": 7.0
+          },
+          "lam>4": {
+            "minutes": 76240,
+            "median_abs_error_people": 1.58,
+            "median_abs_pct_error": 27.65,
+            "pct_truth_inside_range": 72.2,
+            "median_range_width": 4.35,
+            "median_true_people": 7.0
+          }
+        }
+      },
+      "empty_room": {
+        "minutes_truly_empty_30min": 2180044,
+        "mean_headcount_mid": 0.26,
+        "pct_minutes_mid_at_least_1": 0.36,
+        "pct_minutes_device_says_occupied": 4.69,
+        "mean_headcount_mid_when_device_says_occupied": 0.52
+      },
+      "headcount_before_any_leak_learned": {
+        "minutes": 18894,
+        "median_abs_error_people": 1.36,
+        "pct_truth_inside_range": 77.9,
+        "median_range_width": 4.3
+      },
+      "risk": {
+        "minutes": 290761,
+        "pct_exact_agreement": 95.4,
+        "pct_within_one_level": 100.0,
+        "truth_level_share_pct": {
+          "0": 8.4,
+          "1": 15.4,
+          "2": 28.1,
+          "3": 48.1
+        }
+      }
+    }
+  }
+}

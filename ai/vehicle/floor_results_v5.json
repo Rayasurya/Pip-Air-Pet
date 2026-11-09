@@ -1,0 +1,215 @@
+{
+ "label": "SIMULATED",
+ "seeds_from": 70001,
+ "oracles": {
+  "ranges": "assumed ranges only",
+  "learned": "vehicle's mean leak and offset known exactly, day's outdoor and leak spread unknown",
+  "exact": "true daily leak and true outdoor CO2"
+ },
+ "results": {
+  "ranges": {
+   "cracked": {
+    "threshold_covering_all_empties": 725.96,
+    "heldout_empty_cars": 150,
+    "heldout_false_alarms_at_calibration_threshold": 0,
+    "empty_cars_total_zero_false_alarms": 600,
+    "infant_car_detection": {
+     "n": 200,
+     "found_at_all_pct": 100.0,
+     "median_min": 10.3,
+     "p90_min": 22.2,
+     "within_10_min_pct": 48.0,
+     "within_20_min_pct": 86.0,
+     "within_30_min_pct": 98.5
+    },
+    "infant_van_detection": {
+     "n": 100,
+     "found_at_all_pct": 78.0,
+     "median_min": 24.3,
+     "p90_min": null,
+     "within_10_min_pct": 2.0,
+     "within_20_min_pct": 40.0,
+     "within_30_min_pct": 63.0
+    },
+    "infant_all_detection": {
+     "n": 300,
+     "found_at_all_pct": 92.7,
+     "median_min": 13.7,
+     "p90_min": 39.2,
+     "within_10_min_pct": 32.7,
+     "within_20_min_pct": 70.7,
+     "within_30_min_pct": 86.7
+    }
+   },
+   "closed": {
+    "threshold_covering_all_empties": 3455.9,
+    "heldout_empty_cars": 150,
+    "heldout_false_alarms_at_calibration_threshold": 1,
+    "empty_cars_total_zero_false_alarms": 600,
+    "infant_car_detection": {
+     "n": 200,
+     "found_at_all_pct": 100.0,
+     "median_min": 11.5,
+     "p90_min": 16.6,
+     "within_10_min_pct": 23.5,
+     "within_20_min_pct": 93.0,
+     "within_30_min_pct": 94.5
+    },
+    "infant_van_detection": {
+     "n": 100,
+     "found_at_all_pct": 98.0,
+     "median_min": 21.6,
+     "p90_min": 37.7,
+     "within_10_min_pct": 0.0,
+     "within_20_min_pct": 40.0,
+     "within_30_min_pct": 77.0
+    },
+    "infant_all_detection": {
+     "n": 300,
+     "found_at_all_pct": 99.3,
+     "median_min": 13.5,
+     "p90_min": 30.8,
+     "within_10_min_pct": 15.7,
+     "within_20_min_pct": 75.3,
+     "within_30_min_pct": 88.7
+    }
+   }
+  },
+  "learned": {
+   "cracked": {
+    "threshold_covering_all_empties": 267.78,
+    "heldout_empty_cars": 150,
+    "heldout_false_alarms_at_calibration_threshold": 0,
+    "empty_cars_total_zero_false_alarms": 600,
+    "infant_car_detection": {
+     "n": 200,
+     "found_at_all_pct": 100.0,
+     "median_min": 6.8,
+     "p90_min": 11.8,
+     "within_10_min_pct": 84.5,
+     "within_20_min_pct": 99.0,
+     "within_30_min_pct": 100.0
+    },
+    "infant_van_detection": {
+     "n": 100,
+     "found_at_all_pct": 95.0,
+     "median_min": 12.3,
+     "p90_min": 37.2,
+     "within_10_min_pct": 28.0,
+     "within_20_min_pct": 77.0,
+     "within_30_min_pct": 85.0
+    },
+    "infant_all_detection": {
+     "n": 300,
+     "found_at_all_pct": 98.3,
+     "median_min": 8.2,
+     "p90_min": 18.5,
+     "within_10_min_pct": 65.7,
+     "within_20_min_pct": 91.7,
+     "within_30_min_pct": 95.0
+    }
+   },
+   "closed": {
+    "threshold_covering_all_empties": 314.92,
+    "heldout_empty_cars": 150,
+    "heldout_false_alarms_at_calibration_threshold": 0,
+    "empty_cars_total_zero_false_alarms": 600,
+    "infant_car_detection": {
+     "n": 200,
+     "found_at_all_pct": 100.0,
+     "median_min": 5.8,
+     "p90_min": 7.1,
+     "within_10_min_pct": 100.0,
+     "within_20_min_pct": 100.0,
+     "within_30_min_pct": 100.0
+    },
+    "infant_van_detection": {
+     "n": 100,
+     "found_at_all_pct": 100.0,
+     "median_min": 9.8,
+     "p90_min": 12.7,
+     "within_10_min_pct": 53.0,
+     "within_20_min_pct": 100.0,
+     "within_30_min_pct": 100.0
+    },
+    "infant_all_detection": {
+     "n": 300,
+     "found_at_all_pct": 100.0,
+     "median_min": 6.4,
+     "p90_min": 10.8,
+     "within_10_min_pct": 84.3,
+     "within_20_min_pct": 100.0,
+     "within_30_min_pct": 100.0
+    }
+   }
+  },
+  "exact": {
+   "cracked": {
+    "threshold_covering_all_empties": 389.28,
+    "heldout_empty_cars": 150,
+    "heldout_false_alarms_at_calibration_threshold": 1,
+    "empty_cars_total_zero_false_alarms": 600,
+    "infant_car_detection": {
+     "n": 200,
+     "found_at_all_pct": 100.0,
+     "median_min": 6.0,
+     "p90_min": 7.5,
+     "within_10_min_pct": 100.0,
+     "within_20_min_pct": 100.0,
+     "within_30_min_pct": 100.0
+    },
+    "infant_van_detection": {
+     "n": 100,
+     "found_at_all_pct": 99.0,
+     "median_min": 11.1,
+     "p90_min": 19.7,
+     "within_10_min_pct": 32.0,
+     "within_20_min_pct": 90.0,
+     "within_30_min_pct": 96.0
+    },
+    "infant_all_detection": {
+     "n": 300,
+     "found_at_all_pct": 99.7,
+     "median_min": 6.7,
+     "p90_min": 12.9,
+     "within_10_min_pct": 77.3,
+     "within_20_min_pct": 96.7,
+     "within_30_min_pct": 98.7
+    }
+   },
+   "closed": {
+    "threshold_covering_all_empties": 78.94,
+    "heldout_empty_cars": 150,
+    "heldout_false_alarms_at_calibration_threshold": 0,
+    "empty_cars_total_zero_false_alarms": 600,
+    "infant_car_detection": {
+     "n": 200,
+     "found_at_all_pct": 100.0,
+     "median_min": 5.0,
+     "p90_min": 5.0,
+     "within_10_min_pct": 100.0,
+     "within_20_min_pct": 100.0,
+     "within_30_min_pct": 100.0
+    },
+    "infant_van_detection": {
+     "n": 100,
+     "found_at_all_pct": 100.0,
+     "median_min": 6.3,
+     "p90_min": 7.5,
+     "within_10_min_pct": 100.0,
+     "within_20_min_pct": 100.0,
+     "within_30_min_pct": 100.0
+    },
+    "infant_all_detection": {
+     "n": 300,
+     "found_at_all_pct": 100.0,
+     "median_min": 5.0,
+     "p90_min": 6.8,
+     "within_10_min_pct": 100.0,
+     "within_20_min_pct": 100.0,
+     "within_30_min_pct": 100.0
+    }
+   }
+  }
+ }
+}

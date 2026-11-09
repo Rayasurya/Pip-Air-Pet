@@ -1,0 +1,191 @@
+{
+ "note": "SIMULATED people",
+ "seeds": [
+  1,
+  10
+ ],
+ "3 months": {
+  "pressure": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 22,
+   "true_factor_pattern": 0,
+   "true_factor_pattern_or_hint": 1,
+   "any_false_hint": 0,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "stale": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 20,
+   "true_factor_pattern": 2,
+   "true_factor_pattern_or_hint": 5,
+   "any_false_hint": 0,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "pressure_rare": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 16,
+   "true_factor_pattern": 0,
+   "true_factor_pattern_or_hint": 1,
+   "any_false_hint": 0,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "stale_rare": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 15,
+   "true_factor_pattern": 0,
+   "true_factor_pattern_or_hint": 1,
+   "any_false_hint": 4,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "none": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 16,
+   "any_false_hint": 1,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "early_sign": {
+   "runs": 10,
+   "runs_with_enough_marks": 9,
+   "median_marks": 14,
+   "any_false_hint": 1,
+   "any_false_pattern": 0,
+   "dark_last2h_early_sign": 9,
+   "called_light_a_cause": 0,
+   "false_patterns_by_factor": {}
+  }
+ },
+ "6 months": {
+  "pressure": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 41,
+   "true_factor_pattern": 2,
+   "true_factor_pattern_or_hint": 6,
+   "any_false_hint": 1,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "stale": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 36,
+   "true_factor_pattern": 4,
+   "true_factor_pattern_or_hint": 8,
+   "any_false_hint": 3,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "pressure_rare": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 32,
+   "true_factor_pattern": 0,
+   "true_factor_pattern_or_hint": 1,
+   "any_false_hint": 1,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "stale_rare": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 32,
+   "true_factor_pattern": 0,
+   "true_factor_pattern_or_hint": 0,
+   "any_false_hint": 1,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "none": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 31,
+   "any_false_hint": 0,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "early_sign": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 29,
+   "any_false_hint": 1,
+   "any_false_pattern": 0,
+   "dark_last2h_early_sign": 10,
+   "called_light_a_cause": 0,
+   "false_patterns_by_factor": {}
+  }
+ },
+ "12 months": {
+  "pressure": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 79,
+   "true_factor_pattern": 5,
+   "true_factor_pattern_or_hint": 8,
+   "any_false_hint": 0,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "stale": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 76,
+   "true_factor_pattern": 6,
+   "true_factor_pattern_or_hint": 7,
+   "any_false_hint": 3,
+   "any_false_pattern": 1,
+   "false_patterns_by_factor": {
+    "co2_mean": 1
+   }
+  },
+  "pressure_rare": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 64,
+   "true_factor_pattern": 1,
+   "true_factor_pattern_or_hint": 2,
+   "any_false_hint": 2,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "stale_rare": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 65,
+   "true_factor_pattern": 0,
+   "true_factor_pattern_or_hint": 0,
+   "any_false_hint": 0,
+   "any_false_pattern": 0,
+   "false_patterns_by_factor": {}
+  },
+  "none": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 63,
+   "any_false_hint": 3,
+   "any_false_pattern": 1,
+   "false_patterns_by_factor": {
+    "temp_mean": 1
+   }
+  },
+  "early_sign": {
+   "runs": 10,
+   "runs_with_enough_marks": 10,
+   "median_marks": 58,
+   "any_false_hint": 1,
+   "any_false_pattern": 0,
+   "dark_last2h_early_sign": 10,
+   "called_light_a_cause": 0,
+   "false_patterns_by_factor": {}
+  }
+ }
+}

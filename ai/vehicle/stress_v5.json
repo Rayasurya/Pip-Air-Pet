@@ -1,0 +1,45 @@
+{
+ "label": "SIMULATED",
+ "seeds": [
+  200001,
+  226000
+ ],
+ "empty_n": 10400,
+ "hard_n": 5203,
+ "v4": {
+  "false_alarms_within_60min": 2,
+  "any_alarm_in_90min_run": 10,
+  "seeds_60": [
+   204800,
+   209365
+  ],
+  "history_false_alarms_in_empty_parkings": 0
+ },
+ "v5_h0": {
+  "false_alarms_within_60min": 2,
+  "any_alarm_in_90min_run": 10,
+  "seeds_60": [
+   204800,
+   209365
+  ],
+  "history_false_alarms_in_empty_parkings": 0
+ },
+ "v5_h3": {
+  "false_alarms_within_60min": 2,
+  "any_alarm_in_90min_run": 10,
+  "seeds_60": [
+   204800,
+   209365
+  ],
+  "history_false_alarms_in_empty_parkings": 47
+ },
+ "v5_h10": {
+  "false_alarms_within_60min": 2,
+  "any_alarm_in_90min_run": 10,
+  "seeds_60": [
+   204800,
+   209365
+  ],
+  "history_false_alarms_in_empty_parkings": 130
+ }
+}

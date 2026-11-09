@@ -1,0 +1,571 @@
+// Air Pet character, v2.
+//
+// Design rules (see ../../../DESIGN.md):
+// - Eyes carry the emotion: big lit eyes shaped by eyelids (tilt = worried or annoyed,
+//   curved lower lid = smiling eyes). Every mood also has a distinct mouth.
+// - Outline body: fewer always-lit pixels than a solid body, which is gentler on the OLED.
+// - A thought bubble names the cause (CO2, heat, dry, damp), so the face says how it
+//   feels and the bubble says why.
+// - Comic symbols (sweat drops, heat lines, Zzz, hearts) back up the face.
+// - Each mood is a short acted loop, not a still pose.
+#include "pet.h"
+
+#include <math.h>
+#include <string.h>
+
+#include "raster_gfx.h"
+
+namespace {
+
+const float kPi = 3.14159265f;
+const uint32_t kMorphMs = 450;
+const int kGroundY = 59;
+
+float clamp01(float v) { return v < 0 ? 0 : (v > 1 ? 1 : v); }
+float smooth(float k) { k = clamp01(k); return k * k * (3 - 2 * k); }
+float lerp(float a, float b, float k) { return a + (b - a) * k; }
+int ri(float v) { return (int)lroundf(v); }
+// 0 -> 1 -> 0 between a and b, with `ramp` seconds of easing at each end.
+float window(float t, float a, float b, float ramp = 0.25f) {
+  if (t <= a || t >= b) return 0;
+  return smooth((t - a) / ramp) * smooth((b - t) / ramp);
+}
+float pulse(float t, float period, float width) { return fmodf(t, period) < width ? 1.0f : 0.0f; }
+
+// ---------------------------------------------------------------------------
+// Pose: every continuous value of the character. Two poses blend during a mood change.
+// ---------------------------------------------------------------------------
+struct EyeP {
+  float w, h;     // size
+  float dx, dy;   // look direction offset
+  float top;      // upper lid, 0 open .. 1 shut
+  float tilt;     // upper lid tilt: + inner side lower (cross), - inner side higher (worried)
+  float bot;      // curved lower lid, 0 none .. 0.6 smiling eyes
+};
+
+struct Pose {
+  float rx, ry;       // body radii
+  float bob;          // px up
+  float sway;         // px sideways
+  float sprout;       // stem angle, radians (0 upright, + droops right)
+  float leaf;         // leaf size 0..1 (curls when dry)
+  float armL, armR;   // 0 down .. 1 raised
+  EyeP l, r;
+};
+static_assert(sizeof(Pose) == sizeof(float) * 22, "Pose must be all floats");
+
+Pose blend(const Pose& a, const Pose& b, float k) {
+  Pose out;
+  const float* pa = (const float*)&a;
+  const float* pb = (const float*)&b;
+  float* po = (float*)&out;
+  for (size_t i = 0; i < sizeof(Pose) / sizeof(float); i++) po[i] = lerp(pa[i], pb[i], k);
+  return out;
+}
+
+EyeP eye(float top = 0, float tilt = 0, float bot = 0, float w = 15, float h = 19) {
+  return {w, h, 0, 0, top, tilt, bot};
+}
+
+void both(Pose& p, const EyeP& e) { p.l = p.r = e; }
+void look(Pose& p, float dx, float dy) {
+  p.l.dx += dx; p.r.dx += dx;
+  p.l.dy += dy; p.r.dy += dy;
+}
+void blinkBoth(Pose& p, float amount) {
+  p.l.top = p.l.top + (1 - p.l.top) * amount;
+  p.r.top = p.r.top + (1 - p.r.top) * amount;
+}
+// A natural blink every few seconds (~0.15 s).
+float naturalBlink(float t, float period = 3.7f) {
+  const float ph = fmodf(t, period);
+  return ph < 0.15f ? sinf(kPi * ph / 0.15f) : 0;
+}
+
+Pose base() {
+  Pose p;
+  p.rx = 34; p.ry = 21; p.bob = 0; p.sway = 0;
+  p.sprout = 0.1f; p.leaf = 1;
+  p.armL = p.armR = 0;
+  both(p, eye());
+  return p;
+}
+
+// ---- One function per mood: t = clock seconds, s = seconds since the mood started ----
+
+Pose poseHappy(float t) {
+  Pose p = base();
+  const float c = fmodf(t, 12.0f);
+  p.bob = 1.0f * sinf(2 * kPi * t / 1.6f);
+  // Looks left, then right, then back, with a double blink.
+  look(p, -4 * window(c, 2.8f, 4.0f) + 4 * window(c, 4.0f, 5.2f), 0);
+  blinkBoth(p, window(c, 5.5f, 5.65f, 0.07f) + window(c, 5.75f, 5.9f, 0.07f));
+  // A hop with squash and stretch: crouch, jump, land.
+  const float crouch = window(c, 6.2f, 6.5f, 0.12f) + window(c, 7.1f, 7.35f, 0.1f);
+  const float air = window(c, 6.45f, 7.15f, 0.3f);
+  p.ry *= 1 - 0.12f * crouch + 0.08f * air;
+  p.rx *= 1 + 0.07f * crouch - 0.05f * air;
+  p.bob += 6 * air;
+  p.armL += 0.6f * air;
+  p.armR += 0.6f * air;
+  // Curious tilt: one eye opens wider, the other narrows.
+  const float cur = window(c, 8.0f, 9.6f, 0.3f);
+  p.l.h += 4 * cur; p.l.w += 2 * cur;
+  p.r.top += 0.3f * cur;
+  look(p, 2 * cur, -1 * cur);
+  p.sway += 1.5f * cur;
+  // Waves.
+  const float wave = window(c, 9.8f, 11.4f, 0.3f);
+  p.armR += wave * (0.7f + 0.3f * sinf(t * 14));
+  // Content eyes while waving.
+  p.l.bot += 0.35f * wave; p.r.bot += 0.35f * wave;
+  if (c < 5.4f || c > 6.0f) blinkBoth(p, naturalBlink(t));
+  return p;
+}
+
+Pose poseStuffy(float t) {  // drowsy: droops, nods off, jerks awake, yawns
+  Pose p = base();
+  const float c = fmodf(t, 20.0f);
+  float lids = 0.35f + 0.4f * smooth(c / 7.0f);
+  const float nod = window(c, 7.0f, 7.7f, 0.25f);
+  const float jolt = window(c, 7.7f, 8.4f, 0.08f);
+  if (c > 7.7f && c < 13) lids = 0.25f + 0.45f * smooth((c - 8.2f) / 4.5f);
+  if (c >= 13) lids = 0.5f;
+  lids = lids + (0.95f - lids) * nod;
+  lids *= 1 - 0.8f * jolt;
+  both(p, eye(lids, -0.12f));
+  p.l.h += 3 * jolt; p.r.h += 3 * jolt;
+  p.bob = -3 * nod + 0.5f * sinf(2 * kPi * t / 3.5f);
+  look(p, 0, 2 * nod);
+  p.sway = 1.5f * jolt * sinf(t * 40);
+  // Yawn with a stretch (13 s - 16 s); eyes squeeze shut (drawn as >< in drawEyes).
+  const float yawn = window(c, 13.0f, 16.0f, 0.6f);
+  p.ry *= 1 + 0.07f * yawn;
+  p.armL = p.armR = 0.9f * yawn;
+  p.sprout = 0.9f - 0.5f * yawn;
+  return p;
+}
+
+Pose poseGasping(float t) {  // panic: wide eyes, worried lids, shaking, arms flailing
+  Pose p = base();
+  both(p, eye(0, 0, 0, 14, 18));
+  look(p, 0, 2);
+  p.sway = 1.2f * sinf(t * 45);
+  p.bob = 0.6f * sinf(t * 9);
+  p.armL = 0.5f + 0.5f * sinf(t * 12);
+  p.armR = 0.5f + 0.5f * sinf(t * 12 + kPi);
+  p.sprout = 1.5f + 0.2f * sinf(t * 10);
+  return p;
+}
+
+Pose poseHot(float t) {  // overheated: heavy lids, panting, fanning itself
+  Pose p = base();
+  both(p, eye(0.45f, -0.15f, 0.12f, 15, 18));
+  p.bob = 0.8f * sinf(2 * kPi * t / 0.8f);
+  p.armR = 0.55f + 0.45f * sinf(t * 18);
+  p.sprout = 1.2f + 0.1f * sinf(t * 2);
+  p.leaf = 0.8f;
+  blinkBoth(p, naturalBlink(t, 4.5f));
+  return p;
+}
+
+Pose poseDry(float t) {  // parched: squinting, curled leaves
+  Pose p = base();
+  both(p, eye(0.45f, 0.18f, 0.3f));
+  p.rx = 32;
+  p.bob = 0.6f * sinf(2 * kPi * t / 2.2f);
+  p.sprout = 0.6f;
+  p.leaf = 0.45f;
+  look(p, 3 * window(fmodf(t, 6), 3.0f, 5.0f), 0);  // glances at the bubble
+  return p;
+}
+
+Pose poseMuggy(float t) {  // sticky and sad: melted body, droopy worried lids
+  Pose p = base();
+  p.rx = 38; p.ry = 16;
+  both(p, eye(0.5f, -0.3f, 0, 15, 15));
+  p.bob = 0.4f * sinf(2 * kPi * t / 3.0f);
+  p.sprout = 1.4f;
+  p.leaf = 0.9f;
+  blinkBoth(p, window(fmodf(t, 5.0f), 0, 0.9f, 0.35f));  // slow heavy blink
+  return p;
+}
+
+Pose poseAsleep(float t) {  // eyes drawn as closed arcs
+  Pose p = base();
+  p.ry = 20 + 0.9f * sinf(2 * kPi * t / 4.0f);  // breathing
+  p.rx = 35;
+  both(p, eye(1));
+  p.sprout = 1.5f;
+  return p;
+}
+
+Pose poseRelieved(float s) {  // big stretch and a sigh, smiling eyes
+  Pose p = base();
+  const float stretch = window(s, 0.0f, 1.4f, 0.5f);
+  p.ry *= 1 + 0.2f * stretch;
+  p.rx *= 1 - 0.06f * stretch;
+  p.armL = p.armR = stretch;
+  both(p, eye(0, 0, 0.6f));
+  p.sprout = -0.15f * stretch;
+  p.bob = 1.5f * fabsf(sinf(2 * kPi * s / 0.9f)) * (1 - stretch);
+  return p;
+}
+
+Pose posePetted(float t) {  // heart eyes, wiggle, blush
+  Pose p = base();
+  both(p, eye(0, 0, 0.4f));
+  p.sway = 2 * sinf(t * 9);
+  p.armL = p.armR = 0.35f;
+  p.sprout = 0.25f * sinf(t * 9);
+  return p;
+}
+
+Pose poseFor(Mood m, float t, float s) {
+  switch (m) {
+    case Mood::Stuffy: return poseStuffy(t);
+    case Mood::Gasping: return poseGasping(t);
+    case Mood::Hot: return poseHot(t);
+    case Mood::Dry: return poseDry(t);
+    case Mood::Muggy: return poseMuggy(t);
+    case Mood::Asleep: return poseAsleep(t);
+    case Mood::Relieved: return poseRelieved(s);
+    case Mood::Petted: return posePetted(t);
+    case Mood::Happy:
+    default: return poseHappy(t);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Drawing helpers
+// ---------------------------------------------------------------------------
+
+void heartShape(RasterGfx& g, int cx, int cy, float sc, bool on = true) {
+  const int r = ri(4 * sc);
+  g.disc(cx - r, cy - r / 2, r, on);
+  g.disc(cx + r, cy - r / 2, r, on);
+  const int rows = ri(8 * sc);
+  for (int j = 0; j <= rows; j++) {
+    const int half = ri((2 * r) * (1 - (float)j / rows));
+    g.line(cx - half, cy + j - r / 2 + 1, cx + half, cy + j - r / 2 + 1, on);
+  }
+}
+
+void drop(RasterGfx& g, int x, int y, int r = 2, bool on = true) {  // teardrop, tip up
+  g.disc(x, y, r, on);
+  for (int i = 1; i <= r + 1; i++) g.line(x - (r + 1 - i) / 2, y - r - i + 1, x + (r + 1 - i) / 2, y - r - i + 1, on);
+}
+
+enum class EyeStyle { Normal, Panic, Squeeze, Heart, Sleep };
+
+void drawEye(RasterGfx& g, int cx, int cy, const EyeP& e, bool left, EyeStyle style, float t) {
+  const int w = ri(e.w), h = ri(e.h);
+  const int ex = ri(cx + e.dx), ey = ri(cy + e.dy);
+  const int x0 = ex - w / 2, y0 = ey - h / 2;
+
+  if (style == EyeStyle::Squeeze) {  // > <
+    const int d = left ? 1 : -1;
+    for (int k = 0; k < 3; k++) {
+      g.line(ex - 4 * d, ey - 5 + k, ex + 4 * d, ey + k - 1);
+      g.line(ex + 4 * d, ey + k - 1, ex - 4 * d, ey + 3 + k);
+    }
+    return;
+  }
+  if (style == EyeStyle::Heart) {
+    heartShape(g, ex, ey, 0.95f + 0.12f * sinf(t * 9));
+    return;
+  }
+  if (style == EyeStyle::Sleep) {  // closed, relaxed arc
+    for (int dx = -7; dx <= 7; dx++) {
+      const int dy = ri(sqrtf(49.0f - dx * dx) * 0.4f);
+      g.pixel(ex + dx, ey + dy, true);
+      g.pixel(ex + dx, ey + dy + 1, true);
+    }
+    return;
+  }
+
+  // Lit rounded eye.
+  g.fillRoundBox(x0, y0, w, h, w / 3);
+  if (style == EyeStyle::Panic) {  // hollow eye with a tiny shaking pupil
+    g.fillRoundBox(x0 + 2, y0 + 2, w - 4, h - 4, w / 3 - 1, false);
+    g.disc(ex + ri(sinf(t * 31) * 1.5f), ey + 1, 2, true);
+  } else if (h > 9 && e.bot < 0.2f) {  // small glint keeps it alive
+    g.box(ex - w / 4 - 1, ey - h / 4 - 1, 2, 2, false);
+  }
+
+  if (style == EyeStyle::Panic) {  // worried brows, inner ends up
+    const int d = left ? 1 : -1;
+    g.line(ex - 5 * d, y0 - 2, ex + 4 * d, y0 - 5);
+    g.line(ex - 5 * d, y0 - 3, ex + 4 * d, y0 - 6);
+    return;
+  }
+  // Lids: cut dark pixels away from the lit shape.
+  const int side = left ? 1 : -1;  // the inner corner is toward the nose
+  const float tanT = tanf(e.tilt);
+  for (int y = y0; y < y0 + h; y++)
+    for (int x = x0; x < x0 + w; x++) {
+      const float rel = (float)(x - ex);
+      const float topLine = y0 + e.top * h + tanT * rel * side;
+      const float xn = rel / (w * 0.5f);
+      const float botLine = y0 + h - e.bot * h + e.bot * h * 0.6f * xn * xn;
+      if (y < topLine || (e.bot > 0.01f && y > botLine)) g.pixel(x, y, false);
+    }
+  // Nearly shut: draw the closed lid line so the eye never just vanishes.
+  if (e.top > 0.82f) g.fillRoundBox(x0, y0 + h - 3, w, 2, 1);
+}
+
+void drawArm(RasterGfx& g, int cx, int cy, const Pose& p, bool left, float raise) {
+  const int d = left ? -1 : 1;
+  const float a = clamp01(raise);
+  const int x = ri(cx + d * (p.rx + 1 + 2 * a));
+  const int y = ri(cy + p.ry * 0.45f - 22 * a);
+  g.fillEllipse(x, y, 3, 2, true);
+}
+
+void drawSprout(RasterGfx& g, int cx, int top, float angle, float leaf) {
+  if (angle > 1.0f) angle = 1.0f;
+  const int len = 12;
+  // Stem bends: lower half stays upright, the top half carries the droop.
+  const int mx = ri(cx + sinf(angle * 0.3f) * len * 0.5f), my = ri(top - cosf(angle * 0.3f) * len * 0.5f);
+  const int tx = ri(mx + sinf(angle) * len * 0.5f), ty = ri(my - cosf(angle) * len * 0.5f);
+  g.line(cx, top, mx, my);
+  g.line(cx + 1, top, mx + 1, my);
+  g.line(mx, my, tx, ty);
+  g.line(mx + 1, my, tx + 1, ty);
+  // Two leaves in a V. They fold down as the stem droops and shrink when dry.
+  const float open = 0.7f + 0.5f * angle;  // radians away from the stem direction
+  const int ll = ri(3 + 4 * leaf);
+  for (int sgn = -1; sgn <= 1; sgn += 2) {
+    const float a = angle + sgn * open;
+    for (int i = 1; i <= ll; i++) {
+      const int lx = ri(tx + sinf(a) * i), ly = ri(ty - cosf(a) * i);
+      if (i > 1 && i < ll - 1) g.disc(lx, ly, 2);  // leaf is thicker in the middle
+      else g.pixel(lx, ly);
+    }
+  }
+}
+
+// Thought bubble, top right. `icon` draws inside a 25x15 box centered at (114, 8).
+void bubble(RasterGfx& g) {
+  g.fillRoundBox(100, 0, 28, 17, 5, false);
+  g.roundFrame(100, 0, 28, 17, 5);
+  g.disc(96, 20, 1);
+  g.pixel(93, 23);
+}
+void iconWord(RasterGfx& g, const char* s) {
+  g.text(114 - g.textWidth(s) / 2, 8 + g.textHeight() / 2, s);
+}
+void iconCO2(RasterGfx& g) { iconWord(g, "CO2"); }
+void iconWindow(RasterGfx& g) {
+  g.frame(108, 3, 13, 11);
+  g.line(114, 3, 114, 13);
+  g.line(108, 8, 120, 8);
+}
+
+void zed(RasterGfx& g, int x, int y, int s) {
+  g.line(x, y, x + s, y);
+  g.line(x + s, y, x, y + s);
+  g.line(x, y + s, x + s, y + s);
+}
+
+void sparkle(RasterGfx& g, int x, int y, int s) {
+  if (s <= 0) return;
+  g.line(x - s, y, x + s, y);
+  g.line(x, y - s, x, y + s);
+  if (s > 1) { g.pixel(x - 1, y - 1); g.pixel(x + 1, y + 1); g.pixel(x - 1, y + 1); g.pixel(x + 1, y - 1); }
+}
+
+void heatLine(RasterGfx& g, int x, int y, float t) {  // wavy rising line ("indotherm")
+  for (int i = 0; i < 8; i++) g.pixel(x + ri(sinf(t * 7 - i * 0.9f) * 1.5f), y - i);
+}
+
+void blush(RasterGfx& g, int x, int y) {
+  for (int i = 0; i < 3; i++) g.line(x + i * 2, y + 1, x + i * 2 + 1, y);
+}
+
+}  // namespace
+
+// ---------------------------------------------------------------------------
+
+void PetRenderer::draw(Gfx& gIn, Mood mood, uint32_t now) {
+  RasterGfx& g = static_cast<RasterGfx&>(gIn);
+  if (!started_) {
+    started_ = true;
+    cur_ = prev_ = mood;
+    changedAt_ = now - kMorphMs;
+  }
+  if (mood != cur_) {
+    prev_ = cur_;
+    cur_ = mood;
+    changedAt_ = now;
+  }
+  const float t = now / 1000.0f;
+  const float s = (now - changedAt_) / 1000.0f;
+  const float k = clamp01((now - changedAt_) / (float)kMorphMs);
+  const Mood face = k < 0.5f ? prev_ : cur_;  // discrete features swap mid-blink
+
+  Pose p = blend(poseFor(prev_, t, s), poseFor(cur_, t, s), smooth(k));
+  if (k < 1) blinkBoth(p, 1 - fabsf(1 - 2 * k));
+
+  const int cx = ri(64 + p.sway);
+  const int cy = ri(kGroundY - p.ry - p.bob);
+  const int rx = ri(p.rx), ry = ri(p.ry);
+  const float c = fmodf(t, 20.0f);
+
+  g.clear();
+
+  // Ground shadow.
+  const int half = ri(p.rx * 0.75f - p.bob * 1.5f);
+  for (int x = 64 - half; x <= 64 + half; x += 2) g.pixel(x, 63);
+
+  // Feet, then the body outline (cut over the feet).
+  if (face != Mood::Muggy) {
+    g.fillEllipse(cx - 14, cy + ry - 1, 6, 3);
+    g.fillEllipse(cx + 14, cy + ry - 1, 6, 3);
+  }
+  g.fillEllipse(cx, cy, rx - 1, ry - 1, false);
+  g.ellipseRing(cx, cy, rx, ry, 2);
+  drawSprout(g, cx, cy - ry, p.sprout, p.leaf);
+  drawArm(g, cx, cy, p, true, p.armL);
+  drawArm(g, cx, cy, p, false, p.armR);
+
+  // Eyes.
+  EyeStyle style = EyeStyle::Normal;
+  if (face == Mood::Gasping) style = EyeStyle::Panic;
+  if (face == Mood::Petted) style = EyeStyle::Heart;
+  if (face == Mood::Asleep) style = EyeStyle::Sleep;
+  if (face == Mood::Stuffy && window(c, 13.4f, 15.6f, 0.05f) > 0.5f) style = EyeStyle::Squeeze;
+  const int ey = cy - 3;
+  drawEye(g, cx - 14, ey, p.l, true, style, t);
+  drawEye(g, cx + 14, ey, p.r, false, style, t);
+
+  // Mouth and mood props.
+  const int my = cy + ri(p.ry * 0.45f);
+  switch (face) {
+    case Mood::Happy: {
+      const bool open = window(fmodf(t, 12.0f), 6.2f, 7.4f) > 0.3f || window(fmodf(t, 12.0f), 9.8f, 11.4f) > 0.3f;
+      if (open) {
+        g.fillEllipse(cx, my - 1, 4, 3);
+        g.box(cx - 5, my - 5, 11, 4, false);
+      } else {
+        for (int dx = -4; dx <= 4; dx++) {
+          const int dy = ri(sqrtf(16.0f - dx * dx) * 0.6f);
+          g.pixel(cx + dx, my + dy - 1);
+          g.pixel(cx + dx, my + dy);
+        }
+      }
+      break;
+    }
+    case Mood::Stuffy: {
+      const float yawn = window(c, 13.0f, 16.0f, 0.6f);
+      if (yawn > 0.05f) {
+        g.fillEllipse(cx, my, 3 + ri(yawn), 1 + ri(4 * yawn));
+        g.fillEllipse(cx, my, 1 + ri(yawn), ri(3 * yawn), false);
+      } else {
+        g.line(cx - 2, my, cx + 2, my);
+      }
+      if (window(c, 7.7f, 8.6f, 0.05f) > 0.5f) {  // jolt lines
+        g.line(cx - rx - 6, cy - 10, cx - rx - 3, cy - 8);
+        g.line(cx + rx + 6, cy - 10, cx + rx + 3, cy - 8);
+      }
+      bubble(g);
+      iconCO2(g);
+      break;
+    }
+    case Mood::Gasping:
+      g.fillEllipse(cx, my, 4, 2 + ri(2 * fabsf(sinf(t * 5))));
+      g.fillEllipse(cx, my, 2, ri(1.5f * fabsf(sinf(t * 5))), false);
+      // "!" and flying sweat drops.
+      if (pulse(t, 0.6f, 0.4f)) { g.box(18, 2, 2, 8); g.box(18, 12, 2, 2); }
+      drop(g, ri(cx - rx - 4 - fmodf(t * 20, 10)), ri(cy - ry + 4 + fmodf(t * 20, 10) * 0.4f), 1);
+      drop(g, ri(cx + rx + 4 + fmodf(t * 20 + 5, 10)), ri(cy - ry + 4 + fmodf(t * 20 + 5, 10) * 0.4f), 1);
+      bubble(g);
+      if (pulse(t, 2.0f, 1.0f)) iconCO2(g); else iconWindow(g);
+      break;
+    case Mood::Hot: {
+      g.fillEllipse(cx, my - 2, 5, 4);  // open panting mouth
+      g.box(cx - 6, my - 7, 13, 5, false);
+      const int tg = my + 3 + ri(1.2f * sinf(t * 8));  // tongue hangs out and bobs
+      g.fillEllipse(cx + 1, tg, 3, 3, false);
+      g.fillEllipse(cx + 1, tg, 2, 2);
+      g.pixel(cx + 1, tg - 1, false);
+      heatLine(g, cx - 18, cy - ry - 2, t);
+      heatLine(g, cx - 8, cy - ry - 5, t + 2);
+      drop(g, cx + rx + 3, ri(cy - 6 + fmodf(t * 10, 14)), 2);
+      bubble(g);
+      iconWord(g, "HOT");
+      break;
+    }
+    case Mood::Dry:
+      g.line(cx - 3, my, cx + 3, my);
+      if (pulse(t, 4.0f, 0.7f)) g.fillEllipse(cx + 3, my + 2, 2, 2);  // lip lick
+      bubble(g);
+      iconWord(g, "DRY");
+      break;
+    case Mood::Muggy:
+      for (int dx = -5; dx <= 5; dx++) g.pixel(cx + dx, my + ((dx + 10) % 2));
+      drop(g, cx - rx - 2, ri(cy + 2 + fmodf(t * 5, 10)), 2);
+      drop(g, cx + rx + 2, ri(cy + 2 + fmodf(t * 5 + 4, 10)), 1);
+      bubble(g);
+      iconWord(g, "DAMP");
+      break;
+    case Mood::Asleep:
+      g.disc(cx, my, 1 + ri(0.6f + 0.6f * sinf(2 * kPi * t / 4.0f)));
+      g.disc(cx, my, ri(0.6f * sinf(2 * kPi * t / 4.0f)), false);
+      for (int i = 0; i < 3; i++) {
+        const float q = fmodf(t / 3 + i / 3.0f, 1.0f);
+        zed(g, ri(cx + 20 + q * 20), ri(cy - ry + 2 - q * 14), 3 + ri(q * 3));
+      }
+      break;
+    case Mood::Relieved: {
+      g.fillEllipse(cx, my - 1, 5, 4);
+      g.box(cx - 6, my - 6, 13, 5, false);
+      // Sigh: little puffs leaving the mouth.
+      if (s > 0.3f && s < 1.6f) {
+        const float q = (s - 0.3f) / 1.3f;
+        g.disc(ri(cx - 8 - q * 10), ri(my + 2 - q * 4), 1 + ri(q));
+        g.disc(ri(cx - 13 - q * 12), ri(my - q * 6), ri(q * 2));
+      }
+      for (int i = 0; i < 4; i++) {
+        const int sx = cx + (i % 2 ? 1 : -1) * (rx + 7 + (i / 2) * 5);
+        sparkle(g, sx, cy - ry / 2 + (i / 2) * 14, ri(2.5f * fabsf(sinf(t * 4 + i))));
+      }
+      break;
+    }
+    case Mood::Petted: {
+      g.fillEllipse(cx, my - 1, 4, 3);
+      g.box(cx - 5, my - 5, 11, 4, false);
+      blush(g, cx - 27, my - 3);
+      blush(g, cx + 21, my - 3);
+      for (int i = 0; i < 3; i++) {
+        const float q = fmodf(s * 0.7f + i / 3.0f, 1.0f);
+        const int hx = i == 1 ? cx + rx + 4 : (i == 0 ? cx - rx - 6 : cx + rx - 4);
+        heartShape(g, hx, ri(cy - 2 - q * 26), 0.45f + 0.15f * q);
+      }
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+void PetRenderer::drawExplain(Gfx& g, const char* l1, const char* l2, const char* l3) {
+  RasterGfx& rg = static_cast<RasterGfx&>(g);
+  rg.clear();
+  rg.roundFrame(0, 0, 128, 64, 6);
+  const char* lines[3] = {l1, l2, l3};
+  const int th = g.textHeight();
+  for (int i = 0; i < 3; i++) {
+    if (!lines[i] || !lines[i][0]) continue;
+    const int w = g.textWidth(lines[i]);
+    g.text((128 - w) / 2, 16 + i * 17 + th / 2, lines[i]);
+  }
+}
+
+void PetRenderer::drawQuietIcon(Gfx& g) {
+  g.box(1, 4, 3, 4);
+  g.line(4, 4, 7, 1);
+  g.line(7, 1, 7, 10);
+  g.line(7, 10, 4, 7);
+  g.line(0, 11, 10, 0);
+}

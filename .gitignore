@@ -1,0 +1,29 @@
+# Public repo: Pip only. Everything at the top level is private unless listed here.
+# Private and never published: planning notes, home data (data/), Kin, Hum and the
+# series notes, research notes, personal photos, Wi-Fi and OTA secrets.
+/*
+!/.gitignore
+!/README.md
+!/DESIGN.md
+!/BUILD_STEPS.md
+!/PHASE2_AI.md
+!/ROOM_MODE.md
+!/LEFT_BEHIND.md
+!/firmware/
+!/ai/
+!/tools/
+!/art/
+!/docs/
+!/preview-out/
+
+# Inside the published folders, still private or generated
+firmware/.pio/
+firmware/src/secrets.h
+tools/.venv/
+tools/kin_parity/
+docs/*
+!docs/wiring.svg
+preview-out/*.raw
+ai/presence/fill_nights.py
+.DS_Store
+__pycache__/
