@@ -25,6 +25,9 @@ p{margin:0}
 .tag{display:inline-block;border:1px solid var(--axis);border-radius:999px;padding:2px 10px;font-size:12.5px;
 font-weight:600;color:var(--ink);background:var(--surface)}
 .tag.loud{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+a.tag{text-decoration:none;transition:background .18s,border-color .18s}
+a.tag:hover{background:var(--wash);border-color:var(--ink2)}
+a.tag:focus-visible{outline:2px solid var(--asleep);outline-offset:2px}
 #tally{margin-top:12px;color:var(--ink2)}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-top:18px}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:18px;font-size:13.5px;color:var(--ink2)}
@@ -127,7 +130,7 @@ h1{font-size:24px}.seglab{display:none}}
 <header>
 <h1>Pip's room diary</h1>
 <p class="sub">One room, read from its air. Pip logs CO2 once a minute. This page turns that log into days you can read, and says how sure each reading is.</p>
-<div class="tags"><span class="tag loud">Simulated room</span><span class="tag">Thu 8 Oct to Wed 21 Oct 2026</span><span class="tag">20,160 minutes logged</span><span class="tag">Checks on this page are not saved</span></div>
+<div class="tags"><a class="tag" href="room-diary-short.html">Back to the short view</a><span class="tag loud">Simulated room</span><span class="tag">Thu 8 Oct to Wed 21 Oct 2026</span><span class="tag">20,160 minutes logged</span><span class="tag">Checks on this page are not saved</span></div>
 <p id="tally"></p>
 </header>
 <div class="legend" id="legend"></div>

@@ -7,6 +7,7 @@ I built it to test one question: can a room's air alone tell you someone is ther
 ![Pip's moods on the real screen](preview-out/all-moods.png)
 
 - **The story, with the build and the real data:** https://rayasurya.com/projects/pip/
+- **Try the room diary, on a simulated room:** https://rayasurya.com/projects/pip/diary/
 - I built Pip alone in October 2026, with AI. I made every decision, and I'd never soldered before.
 
 ## What it does

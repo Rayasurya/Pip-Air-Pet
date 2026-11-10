@@ -23,11 +23,12 @@ Can the air alone tell that someone is in the room? These run from the `air-pet`
 
 | What | Command | What you get |
 |------|---------|--------------|
-| Room diary, demo | `P ai/presence/room_diary.py --demo` | The simulated room as a page: every day as a strip, then one day with its CO2 curve, each block's evidence and how sure Pip is. Opens at `http://127.0.0.1:8765`, on your computer only. |
-| Room diary, one file | `P ai/presence/room_diary.py --demo --export ai/presence/out/room-diary-demo.html` | The same page as one file that opens offline. A copy is in `presence/out/`. |
+| Room diary, short view | `P ai/presence/room_diary.py --demo --simple` | Start here. A drawn room, Pip's face, and one sentence for what Pip makes of the room. Press play to watch a day, or drag the bar. In the simulated room a switch shows what really happened. Opens at `http://127.0.0.1:8765`, on your computer only. |
+| Room diary, full view | `P ai/presence/room_diary.py --demo` | The working page: every day as a strip, then one day with its CO2 curve, each block's evidence and how sure Pip is. |
+| Either view as one file | add `--export some-file.html` | One file that opens offline. Copies are in `presence/out/`: `room-diary-short.html` and `room-diary-demo.html`. |
 | Room diary, your room | `P ai/presence/room_diary.py --log your_log.csv` | Your own log. "Right" and "Wrong?" are saved to a CSV on your computer, which becomes the labels the rule is scored against. |
 | Score the rule | `P ai/presence/score_level.py` | The level rule against the simulated room (true labels). With a real log it also shows how the limit was picked and tested. |
-| Tests | `P ai/presence/test_level_rule.py`, `test_events.py`, `test_room_diary.py` | |
+| Tests | `P ai/presence/test_level_rule.py`, `test_events.py`, `test_room_diary.py`, `test_diary_simple.py` | |
 
 What to know before you trust it:
 
@@ -36,5 +37,6 @@ What to know before you trust it:
 - `events.py` adds "air clearing" and "likely asleep" for the diary. Their settings were tuned on the same days they are shown on. They are a reading aid, not a tested result.
 - "How sure" is not a probability. It means any limit from 60 to 110 ppm gives the same answer.
 - Time when Pip logged nothing is shown as "Pip was off". It is never filled in.
+- The short view draws from the same reading as the full view, so the two can't disagree. In its drawing, each dot is about 14 ppm of CO2 above the room's empty level, and Pip's face follows CO2 only (the real Pip also reads heat and damp).
 
 Log columns: `LOG_FORMAT.md`.

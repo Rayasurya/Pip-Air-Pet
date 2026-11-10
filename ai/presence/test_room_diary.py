@@ -82,6 +82,10 @@ assert "box-shadow:0" not in html and "drop-shadow" not in html
 for edge in ("border-left", "border-right", "border-top", "border-bottom"):
     assert edge not in html, "no single-side borders"
 assert rd.runs([False, True, True, False, True]) == [[1, 3], [4, 5]]
+#    a hosted copy can link back to the story it belongs to; a plain copy has no such link
+assert "Back to Pip" not in html
+hosted = rd.page(data, back='../"><script>')
+assert 'href="../&quot;&gt;&lt;script&gt;">Back to Pip\'s story</a>' in hosted, "the address is escaped"
 
 # 5. A check from the page is cleaned before it is stored.
 ok = {"start": "2026-01-05 10:00", "end": "2026-01-05 11:30", "state": "out", "pip_said": "here", "note": " a\nb  c "}

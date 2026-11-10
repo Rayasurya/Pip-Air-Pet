@@ -14,6 +14,9 @@ Run from air-pet:
     tools/.venv/bin/python ai/presence/room_diary.py --demo --export ai/presence/out/room-diary-demo.html
         One file you can open offline or send to someone.
 
+    Add --simple to any of these for the short view: a drawn room, one sentence, and a day you
+    can play. It is the page to show someone who has never seen Pip. See diary_simple.py.
+
 What the page will not do:
   - It never fills in time when Pip was off. Those hours say "Pip was off".
   - It never says who was in the room, or how many people.
@@ -23,6 +26,7 @@ The reading itself is in events.py. The tested rule is in level_rule.py. Tests: 
 """
 import argparse
 import csv
+import html
 import json
 import sys
 import webbrowser
@@ -30,6 +34,7 @@ from datetime import datetime, time, timedelta
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+import diary_simple
 from events import SURE_HIGH, SURE_LOW, STUFFY_PPM, day_blocks, describe, diary, when
 from level_rule import Rule, load
 
@@ -202,6 +207,9 @@ p{margin:0}
 .tag{display:inline-block;border:1px solid var(--axis);border-radius:999px;padding:2px 10px;font-size:12.5px;
 font-weight:600;color:var(--ink);background:var(--surface)}
 .tag.loud{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+a.tag{text-decoration:none;transition:background .18s,border-color .18s}
+a.tag:hover{background:var(--wash);border-color:var(--ink2)}
+a.tag:focus-visible{outline:2px solid var(--asleep);outline-offset:2px}
 #tally{margin-top:12px;color:var(--ink2)}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-top:18px}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:18px;font-size:13.5px;color:var(--ink2)}
@@ -701,7 +709,8 @@ PAGE = """<!doctype html>
 """
 
 
-def page(data):
+def page(data, back=None, back_label=None):
+    """back: an address for a link back (to Pip's story, or to the short view), for a hosted copy."""
     rule = data["rule"]
     tags = [f'<span class="tag">{data["span"]}</span>',
             f'<span class="tag">{data["minutes"]:,} minutes logged</span>']
@@ -727,6 +736,9 @@ def page(data):
     else:
         tags.append('<span class="tag">Checks on this page are not saved</span>')
         notes.append("This is a demo or a saved copy, so Right and Wrong? work but are forgotten when you close the page.")
+    if back:
+        label = html.escape(back_label or diary_simple.BACK_LABEL, quote=False)
+        tags.insert(0, f'<a class="tag" href="{html.escape(back, quote=True)}">{label}</a>')
     blob = json.dumps(data, separators=(",", ":")).replace("</", "<\\/")
     return (PAGE.replace("__TITLE__", " (simulated)" if data["simulated"] else "")
             .replace("__TAGS__", "".join(tags)).replace("__NOTES__", "".join(f"<li>{n}</li>" for n in notes))
@@ -743,7 +755,11 @@ def build(args, live):
     else:
         data = payload(load(args.log), live=live, checks=load_checks(args.checks) if live else (),
                        last_days=args.days)
-    return page(data)
+    back, label = getattr(args, "back", None), getattr(args, "back_label", None)
+    if getattr(args, "simple", False):
+        return diary_simple.page(data, back=back, back_label=label, full=getattr(args, "full", None),
+                                 fonts=getattr(args, "fonts", None), theme=getattr(args, "theme", None))
+    return page(data, back=back, back_label=label)
 
 
 # ---------- serving it, on this Mac only ----------
@@ -798,6 +814,12 @@ def main():
     ap.add_argument("--checks", type=Path, default=CHECKS, help="where Right and Wrong? are saved")
     ap.add_argument("--days", type=int, help="show only the last N days")
     ap.add_argument("--export", type=Path, help="write one HTML file and stop")
+    ap.add_argument("--simple", action="store_true", help="the short view: a drawn room and a day you can play")
+    ap.add_argument("--back", help="add a \"Back to Pip's story\" link to this address (for a hosted copy)")
+    ap.add_argument("--back-label", help="other words for that link")
+    ap.add_argument("--full", help="with --simple: add a link to the full diary at this address")
+    ap.add_argument("--fonts", help="with --simple: a folder with the Geist fonts, for a copy hosted next to Pip's story")
+    ap.add_argument("--theme", choices=("light", "dark"), help="with --simple: fix the look (default: the reader's system)")
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--no-open", action="store_true", help="don't open the browser")
     args = ap.parse_args()
