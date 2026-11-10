@@ -24,7 +24,7 @@ I built it to test one question: can a room's air alone tell you someone is ther
 Pip has logged my room every minute since 19 October 2026. These are totals from about 17,000 readings, up to 7 November. The raw data is private.
 
 - **The forecast failed in the real room.** Its average miss 20 minutes ahead was 86 ppm. Just guessing "no change" missed by 27 ppm. In simulation it had caught 87% of stuffy spells 5 or more minutes early. That number is simulated.
-- **It saw me leave, but not sleep.** On weekday daytimes, when I'm out, Pip called the room empty 97.5% of the time. But it almost never noticed me asleep. My breath kept the CO2 about 110 ppm above outdoor air all night, but steady, and Pip looks for a rise. Both are scored against my routine, not a minute-by-minute record of where I was.
+- **It missed me asleep, so I changed the rule.** The first rule looked for rising CO2. A sleeper holds CO2 steady, so it almost never saw me. I rewrote it to read the level. On the days I held back for testing (log up to 8 November), the new rule called the room occupied for 100% of 1,001 sleeping minutes and 0% of 1,158 weekday-daytime minutes. On the same nights the first rule caught 1.3%. That is 4 nights and 4 weekdays in one room, scored against my routine, not a record of where I was. In a closed simulated room it fails the other way: it says "here" for hours after the person leaves. The rule, its tests and a room diary built on it are in `ai/presence/`. See [`ai/README.md`](ai/README.md).
 - **As the user, I broke my own data.** The screen kept me awake, so I switched Pip off at night. 12 of 19 nights have holes. Night mode came from that.
 
 Nobody else has used Pip or tested its faces. It's one room and one person.
